@@ -8,9 +8,8 @@ var AddTodo = React.createClass({
     if (text.length > 0) {
       this.refs.todoText.value = '';
       this.props.onAddTodo(text);
-      this.refs.todoText.focus();
+      this.refs.todoText.focus(); // focus on the input field if no input is entered
     } else {
-      // focus on the input field if no input is entered
       this.refs.todoText.focus();
     }
   },
