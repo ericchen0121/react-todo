@@ -21,6 +21,10 @@ module.exports = {
   },
   resolve: {
     root: __dirname,
+    modulesDirectories: [
+      path.resolve(__dirname, 'app/components'),
+      'node_modules'
+    ],
     alias: {
       appStyles: 'app/styles/app.scss'
     },
@@ -45,6 +49,3 @@ module.exports = {
   },
   devtool: 'cheap-module-eval-source-map'
 };
-
-//"cheap-module-eval-source-map"
-//inline-source-map" or "eval-source-map"
