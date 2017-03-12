@@ -26,6 +26,7 @@ module.exports = {
       './app/components',
       './app/actions',
       './app/reducers',
+      './app/store',
       'node_modules'
     ],
     alias: {
