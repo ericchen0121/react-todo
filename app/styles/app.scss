@@ -6,3 +6,10 @@
 @include foundation-everything;
 
 // components
+@import 'components/page-title';
+@import 'components/container';
+@import 'components/todo';
+
+#app {
+  margin-top: .5rem;
+}
