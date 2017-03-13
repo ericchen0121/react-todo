@@ -35,7 +35,7 @@ module.exports = {
 
     if(searchText.length > 0) {
       filteredTodos = filteredTodos.filter((todo) => {
-        return todo.text.indexOf(searchText) > -1; 
+        return todo.text.indexOf(searchText) > -1;
       })
     }
 

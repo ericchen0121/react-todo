@@ -6,15 +6,16 @@ var TodoApp = require('TodoApp');
 
 var actions = require('actions');
 var store = require('configureStore').configure();
+var TodoAPI = require('TodoAPI');
 
 store.subscribe(() => {
+  var state = store.getState();
   console.log('Okay... New state', store.getState());
-})
+  TodoAPI.setTodos(state.todos);
+});
 
-store.dispatch(actions.addTodo('Walk around the ferry building'));
-store.dispatch(actions.setSearchText('ferry'));
-store.dispatch(actions.toggleShowCompleted());
-store.dispatch(actions.addTodo('Continue drinking coffee'));
+var initialTodos = TodoAPI.getTodos();
+store.dispatch(actions.addTodos(initialTodos));
 
 // Load foundation
 $(document).foundation();

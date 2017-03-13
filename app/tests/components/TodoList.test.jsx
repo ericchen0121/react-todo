@@ -6,7 +6,7 @@ var expect = require('expect');
 var $ = require('jquery');
 
 import {configure} from 'configureStore';
-import ConnectedTodoList, {TodoList} from 'TodoList'
+import ConnectedTodoList, {TodoList} from 'TodoList';
 import ConnectedTodo, {Todo} from 'Todo';
 
 describe('TodoList', () => {
@@ -28,6 +28,8 @@ describe('TodoList', () => {
       completedAt: undefined,
       createdAt: 500
     }];
+
+    // set initial state of the store
     var store = configure({
       todos
     });
@@ -36,8 +38,9 @@ describe('TodoList', () => {
       <Provider store={store}>
         <ConnectedTodoList/>
       </Provider>
-    )
-    var todoList = TestUtils.scryRenderedComponentsWithType(provider, ConnectedTodoList)[0]
+    );
+
+    var todoList = TestUtils.scryRenderedComponentsWithType(provider, ConnectedTodoList)[0];
 
     // returns an array of components, defined by second argument
     // scry (an inside joke by FB) refers to finding ALL the nested components

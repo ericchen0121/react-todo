@@ -1,51 +1,13 @@
 var React = require('react');
 var uuid = require('uuid');
+var moment = require('moment');
 
 import TodoList from 'TodoList'
 import AddTodo from 'AddTodo';
-var TodoSearch = require('TodoSearch');
-var TodoAPI = require('TodoAPI');
-var moment = require('moment');
+import TodoSearch from 'TodoSearch';
 
 var TodoApp = React.createClass({
-  getInitialState: function() {
-    return {
-      todos: TodoAPI.getTodos(),
-      showCompleted: false,
-      searchText: ''
-    }
-  },
-  componentWillMount: function() {
-    // TodoAPI.setTodos(this.state.todos);
-  },
-  componentWillUpdate: function(nextProps, nextState) {
-    // TodoAPI.setTodos(nextState.todos);
-  },
-  handleAddTodo: function(text) {
-    this.setState({
-      todos: [
-        ...this.state.todos,
-        {
-          id: uuid(),
-          text: text,
-          completed: false,
-          createdAt: moment().unix(),
-          completedAt: undefined
-        }
-      ]
-    })
-  },
-  handleSearch: function(showCompleted, searchText) {
-    this.setState({
-      showCompleted: showCompleted,
-      searchText: searchText.toLowerCase()
-    })
-  },
-
   render: function() {
-    var {todos, showCompleted, searchText} = this.state;
-    var filteredTodos = TodoAPI.filterTodos(todos, showCompleted, searchText);
-
     return (
       <div>
         <div className='row'>
@@ -54,9 +16,9 @@ var TodoApp = React.createClass({
               <div className='container__title'>
                 <h2 className='page-title'>todo</h2>
               </div>
-              <TodoSearch onSearch={this.handleSearch}/>
+              <TodoSearch/>
               <TodoList/>
-              <AddTodo onAddTodo={this.handleAddTodo}/>
+              <AddTodo/>
             </div>
           </div>
         </div>
