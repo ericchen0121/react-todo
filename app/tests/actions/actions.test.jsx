@@ -1,5 +1,10 @@
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 var expect = require('expect');
+
 var actions = require('actions');
+
+var createMockStore = configureMockStore([thunk]);
 
 describe('Actions', () => {
   it('should generate search text action', () => {
@@ -19,13 +24,38 @@ describe('Actions', () => {
   it('should generate add todo action', () => {
     var action = {
       type: 'ADD_TODO',
-      text: 'go to the coffeehouse to program'
+      todo: {
+        id: '123abc',
+        text: 'go to the coffeehouse to program',
+        completed: false,
+        createdAt: 12345
+      }
     };
 
-    var res = actions.addTodo(action.text);
+    var res = actions.addTodo(action.todo);
 
     expect(res).toEqual(action);
-  })
+  });
+
+  // (done) arg tells Mocha it's an async test until done() is called
+  // "Testing Async Actions", video 134 in Section: 11, Databases & Authentication With Firebase
+  // https://www.udemy.com/the-complete-react-web-app-developer-course/learn/v4/t/lecture/5199020?start=0
+  //
+  it('should create todo and dispatch ADD_TODO', (done) => {
+    const store = createMockStore({});
+    const todoText = 'My todo item';
+
+    store.dispatch(actions.startAddTodo(todoText)).then(() => {
+      const actions = store.getActions(); // returns an array of all actions that get called on mock store
+      expect(actions[0]).toInclude({
+        type: 'ADD_TODO'
+      });
+      expect(actions[0].todo).toInclude({
+        text: todoText
+      });
+      done(); // karma waits for this! wrap it up after expect statements!
+    }).catch(done);
+  });
 
   it('should generate add todos action object', () => {
     var todos = [{

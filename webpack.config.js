@@ -30,6 +30,7 @@ module.exports = {
       'node_modules'
     ],
     alias: {
+      app: 'app',
       appStyles: 'app/styles/app.scss'
     },
     extensions: ['', '.js', '.jsx']

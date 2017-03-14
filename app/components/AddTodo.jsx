@@ -10,7 +10,7 @@ export var AddTodo = React.createClass({
 
     if (text.length > 0) {
       this.refs.todoText.value = '';
-      dispatch(actions.addTodo(text));
+      dispatch(actions.startAddTodo(text));
       this.refs.todoText.focus(); // focus on the input field if no input is entered
     } else {
       this.refs.todoText.focus();
