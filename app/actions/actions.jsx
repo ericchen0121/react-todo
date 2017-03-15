@@ -22,6 +22,29 @@ export var addTodos = (todos) => {
     };
 };
 
+export var startAddTodos = () => {
+  // Object.keys(todos)
+  // turn { '123': {text: 'go'}} into [{id: '123', text: 'go'}]
+  return (dispatch, getState) => {
+    var todosRef = firebaseRef.child('todos')
+
+    return  todosRef.once('value').then((snapshot) => {
+      // console.log('got all todos', snapshot.key, snapshot.val())
+      var todosObj = snapshot.val() || {};
+      var todosArray = [];
+      var todosIds = Object.keys(todosObj);
+      todosIds.forEach((id) => {
+        todosArray.push({
+          id,
+          ...todosObj[id]
+        })
+      })
+
+      dispatch(addTodos(todosArray));
+    }, (e) => {})
+  };
+};
+
 export var startAddTodo = (text) => {
   return (dispatch, getState) => {
     var todo = {
@@ -64,7 +87,7 @@ export var startToggleTodo = (id, completed) => {
       completedAt: completed ? moment().unix() : null
     }
 
-    todoRef.update(updates).then(() => {
+    return todoRef.update(updates).then(() => {
       dispatch(updateTodo(id, updates));
     })
   }
