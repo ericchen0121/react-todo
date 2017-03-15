@@ -49,6 +49,7 @@ firebaseRef.child('user').update({
 //   age: null
 // })
 
+// GET data from Firebase
 // firebaseRef.child('app').once('value').then((snapshot) => {
 //   console.log('got entire database', snapshot.key, snapshot.val())
 // }, (e) => {

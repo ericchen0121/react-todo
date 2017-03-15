@@ -44,7 +44,7 @@ describe('Actions', () => {
   //
   it('should create todo and dispatch ADD_TODO', (done) => {
     const store = createMockStore({});
-    const todoText = 'My todo item';
+    const todoText = 'Does this work?';
 
     store.dispatch(actions.startAddTodo(todoText)).then(() => {
       const actions = store.getActions(); // returns an array of all actions that get called on mock store
@@ -100,13 +100,19 @@ describe('Actions', () => {
 
     // setup test suite with Mocha lifecycle methods, before and after each test case
     beforeEach((done) => {
-      testTodoRef = firebaseRef.child('todos').push();
-
-      testTodoRef.set({
-        text: 'something to do',
-        completed: false,
-        createdAt: 12342
-      }).then(() => done());
+      // clear the entire firebase db
+      var todosRef = firebaseRef.child('todos');
+      todosRef.remove().then(() => {
+        // then add one test todo in fb
+        testTodoRef = firebaseRef.child('todos').push();
+        return testTodoRef.set({
+          text: 'something to do',
+          completed: false,
+          createdAt: 12342
+        })
+      })
+      .then(() => done())
+      .catch(done)
     });
 
     afterEach((done) => {
@@ -117,11 +123,10 @@ describe('Actions', () => {
       const store = createMockStore({});
       const action = actions.startToggleTodo(testTodoRef.key, true);
 
-      done();
       store.dispatch(action).then(() => {
-      //   // getActions() method for redux-mock-store library
+      // getActions() method for redux-mock-store library
         const mockActions = store.getActions();
-      //
+
         expect(mockActions[0]).toInclude({
           type: 'UPDATE_TODO',
           id: testTodoRef.key
@@ -130,6 +135,23 @@ describe('Actions', () => {
           completed: true
         });
         expect(mockActions[0].updates.completedAt).toExist();
+        done();
+      }, done);
+    });
+
+    it('should create a todo on startAddTodos action', (done) => {
+      const store = createMockStore({});
+      const action = actions.startAddTodos();
+
+      store.dispatch(action).then(() => {
+        const mockActions = store.getActions();
+
+        expect(mockActions[0].type).toEqual('ADD_TODOS');
+        expect(mockActions[0].todos.length).toEqual(1);
+        expect(mockActions[0].todos[0]).toInclude({
+          id: testTodoRef.key,
+          text: 'something to do'
+        });
         done();
       }, done);
     })
