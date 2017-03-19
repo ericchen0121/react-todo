@@ -9,7 +9,6 @@ try {
       messagingSenderId: process.env.MESSAGING_SENDER_ID
   };
 
-  console.log('config FIREBASE is', config)
   firebase.initializeApp(config);
 } catch (e) {
 
